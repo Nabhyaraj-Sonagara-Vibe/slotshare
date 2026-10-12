@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SlotShare — share time slots, no sign-up</title>
+<meta name="description" content="Pick a few time slots in your timezone and get a shareable link. No account, no server, no calendar access." />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="header">
+      <h1>📅 SlotShare</h1>
+      <p class="tagline">Pick a few times that work for you. Share a link. They see it in <em>their</em> timezone.</p>
+    </header>
+
+    <!-- SENDER VIEW: shown when there is no encoded data in the URL -->
+    <section id="senderView" class="card" hidden>
+      <h2>Your timezone</h2>
+      <p class="detected-tz">Detected: <strong id="senderTz"></strong></p>
+
+      <h2>Add time slots</h2>
+      <div id="slotList" class="slot-list" aria-live="polite"></div>
+
+      <form id="addSlotForm" class="add-slot-form">
+        <div class="field">
+          <label for="slotDate">Date</label>
+          <input type="date" id="slotDate" required />
+        </div>
+        <div class="field">
+          <label for="slotStart">Start time</label>
+          <input type="time" id="slotStart" required />
+        </div>
+        <div class="field">
+          <label for="slotEnd">End time</label>
+          <input type="time" id="slotEnd" required />
+        </div>
+        <button type="submit" class="btn btn-secondary">+ Add slot</button>
+      </form>
+
+      <div class="generate-row">
+        <button id="generateBtn" class="btn btn-primary" disabled>Generate shareable link</button>
+      </div>
+
+      <div id="shareResult" class="share-result" hidden>
+        <label for="shareUrl">Share this link:</label>
+        <div class="share-url-row">
+          <input id="shareUrl" type="text" readonly />
+          <button id="copyBtn" class="btn btn-secondary">Copy</button>
+        </div>
+        <p id="copyStatus" class="copy-status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- RECIPIENT VIEW: shown when the URL contains encoded slot data -->
+    <section id="recipientView" class="card" hidden>
+      <h2>Proposed time slots</h2>
+      <p class="recipient-note">
+        Shown below in <strong>your</strong> local timezone (<span id="recipientTz"></span>).
+        Sender proposed these in <span id="senderTzLabel"></span>.
+      </p>
+      <div id="recipientSlotList" class="slot-list"></div>
+      <div class="start-over-row">
+        <a href="?" class="btn btn-secondary">Create your own slots</a>
+      </div>
+    </section>
+
+    <section id="errorView" class="card" hidden>
+      <h2>⚠️ Couldn't read this link</h2>
+      <p>The link looks malformed or incomplete. Ask the sender to generate a new one.</p>
+      <a href="?" class="btn btn-secondary">Create your own slots</a>
+    </section>
+
+    <footer class="footer">
+      <p>No account. No server. No calendar access. Your data lives only in the URL you share.</p>
+    </footer>
+  </main>
+
+  <script src="slotshare-core.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
